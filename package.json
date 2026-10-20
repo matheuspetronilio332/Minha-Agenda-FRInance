@@ -1,0 +1,1 @@
+{"name":"minha-agenda","version":"1.0.0","description":"SaaS de agenda e gestão para autônomos e pequenos negócios (sem dependências)","main":"server.js","scripts":{"start":"node server.js"},"engines":{"node":">=18"}}

@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0a7d5a"><link rel="manifest" href="/manifest.json"><link rel="icon" href="/icon.svg"><title>MinhaAgenda</title>
+<style>
+:root{--p:#0f9d75;--p2:#0a7d5a;--bg:#f3f6f5;--c:#fff;--t:#16241f;--m:#6a7b75;--b:#e4ebe8;--r:#dc4a4a;--sh:0 2px 12px #0a2a2014}
+@media(prefers-color-scheme:dark){:root{--bg:#0e1413;--c:#16201d;--t:#e9f1ee;--m:#90a49c;--b:#25312d;--sh:0 2px 12px #0006}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--t)}
+button,input,select,textarea{font:inherit;color:inherit}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--b);border-radius:12px;background:var(--c);margin:4px 0 12px;outline:0}
+input:focus,select:focus,textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px #0f9d7524}
+textarea{min-height:70px;resize:vertical}
+button{border:0;border-radius:12px;padding:11px 16px;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;cursor:pointer;font-weight:600}
+button:active{transform:scale(.97)}button:disabled{opacity:.6}
+button.s{background:transparent;color:var(--p);border:1px solid var(--p)}button.d{background:var(--r)}button.x{padding:7px 12px;font-size:13px}
+button.ic{background:var(--bg);color:var(--m);padding:6px 11px;border-radius:99px}
+label{font-size:13px;color:var(--m);font-weight:600;display:block}.m{color:var(--m)}h2,h3,h4{margin:.4em 0}
+.top{position:sticky;top:0;z-index:6;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top));background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;font-weight:700}
+.av{width:38px;height:38px;border-radius:50%;padding:0;background:#fff3;border:2px solid #fff6}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--c);border-top:1px solid var(--b);padding-bottom:env(safe-area-inset-bottom);z-index:5}
+nav a{flex:1;text-align:center;padding:8px 2px;font-size:11px;color:var(--m);cursor:pointer;font-weight:600}nav a b{display:block;font-size:21px;font-weight:400}nav a.on{color:var(--p)}
+main{max-width:900px;margin:0 auto;padding:12px 16px 120px}
+.card{background:var(--c);border:1px solid var(--b);border-radius:16px;padding:14px;margin:10px 0;box-shadow:var(--sh)}
+.row{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}.row.l{justify-content:flex-start}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}.grid .card{margin:0}
+.stat span{font-size:13px;color:var(--m)}.stat b{display:block;font-size:21px;margin-top:2px}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--b);color:var(--t)}
+.s0{background:#fff0c2;color:#6b4e00}.s1{background:#d9ecff;color:#0b4a8a}.s2{background:#cdf3e2;color:#075b3f}.s3{background:#ffdcdc;color:#8a1f1f}
+.ap{display:flex;gap:12px;border-left:5px solid var(--b)}.b0{border-left-color:#f0b400}.b1{border-left-color:#2f8fe8}.b2{border-left-color:var(--p)}.b3{border-left-color:var(--r);opacity:.7}
+.tm{min-width:50px;font-weight:700;font-size:17px}.bd{flex:1;min-width:0;cursor:pointer}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:10px 0}
+.day{display:flex;flex-direction:column;align-items:center;padding:8px 0;background:var(--c);color:var(--t);border:1px solid var(--b)}.day small{color:var(--m);text-transform:uppercase;font-size:10px}.day b{font-size:18px}.day i{font-style:normal;color:var(--p);height:14px;line-height:14px}
+.day.on{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;border-color:transparent}.day.on small,.day.on i{color:#fff}.day.today:not(.on){border-color:var(--p)}
+.avt{width:42px;height:42px;border-radius:50%;background:#cdf3e2;color:#075b3f;display:grid;place-items:center;font-weight:700;flex:none}
+.bars{display:flex;gap:8px;align-items:flex-end;height:130px}.bars div{flex:1;text-align:center;font-size:11px;color:var(--m)}.bars i{display:block;background:linear-gradient(180deg,var(--p),var(--p2));border-radius:8px 8px 0 0;min-height:3px;margin-bottom:4px}
+.empty{text-align:center;padding:28px 10px;color:var(--m)}.empty b{display:block;font-size:40px;font-weight:400}
+.fab{position:fixed;right:16px;bottom:calc(78px + env(safe-area-inset-bottom));width:58px;height:58px;border-radius:50%;font-size:30px;padding:0;box-shadow:0 6px 16px #0a7d5a66;z-index:4}
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#16241f;color:#fff;padding:10px 18px;border-radius:99px;z-index:30;box-shadow:0 4px 14px #0005;max-width:90%;text-align:center}.toast.err{background:var(--r)}
+.ov{position:fixed;inset:0;background:#0008;display:flex;align-items:flex-end;justify-content:center;z-index:20}
+.md{background:var(--c);width:100%;max-width:480px;border-radius:20px 20px 0 0;padding:16px;max-height:92vh;overflow:auto}
+.pub{max-width:480px;margin:0 auto;padding:16px}.hero{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;padding:30px 20px;border-radius:0 0 26px 26px;margin:-16px -16px 16px}
+.slots{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}.slots button{padding:8px 12px}
+@media(min-width:800px){nav{top:0;right:auto;width:210px;flex-direction:column;border-top:0;border-right:1px solid var(--b);padding-top:76px}nav a{text-align:left;padding:13px 22px;font-size:15px}nav a b{display:inline;margin-right:10px}nav a.on{background:#0f9d7514;border-right:3px solid var(--p)}
+.top{margin-left:210px}main{margin-left:210px;max-width:none;padding:20px 32px}main>*{max-width:880px}.fab{bottom:28px;right:32px}.toast{bottom:28px}.ov{align-items:center}.md{border-radius:20px}}
+</style></head><body><div id="app"></div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const brl=n=>(+n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const iso=d=>new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10),pd=d=>new Date(d+'T12:00'),br=d=>d.split('-').reverse().join('/');
+const mi=t=>+t.slice(0,2)*60+ +t.slice(3),hm=t=>String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0'),nowT=()=>{const n=new Date();return hm(n.getHours()*60+n.getMinutes())};
+const sum=(L,f)=>L.reduce((s,x)=>s+(+f(x)||0),0),byT=(a,b)=>(a.date+a.time).localeCompare(b.date+b.time);
+const ST=['pendente','agendado','concluído','cancelado'],PM=['','Pix','Dinheiro','Cartão','Transferência'];
+const NAV=[['home','🏠','Início'],['agenda','📅','Agenda'],['clientes','👥','Clientes'],['servicos','🛠️','Serviços'],['fin','💰','Financeiro']];
+const PUBSLUG=location.pathname.startsWith('/b/')?location.pathname.split('/')[2]:null;
+let S={tok:localStorage.tok||'',tab:'home',date:iso(new Date()),mon:iso(new Date()).slice(0,7),q:'',user:{},clients:[],services:[],appts:[],exp:[],reg:false};
+
+async function api(m,u,b){let r;try{r=await fetch('/api/'+u,{method:m,headers:{'Content-Type':'application/json',Authorization:'Bearer '+S.tok},body:b?JSON.stringify(b):undefined})}catch{throw new Error('Sem conexão com o servidor')}
+ const j=await r.json().catch(()=>({}));if(r.status===401&&S.tok)logout(1);if(!r.ok)throw new Error(j.error||'Erro inesperado');return j}
+function logout(local){if(!local)api('POST','logout').catch(()=>{});S.tok='';S.user={};localStorage.removeItem('tok');render()}
+async function load(){S.user=await api('GET','me');[S.clients,S.services,S.appts,S.exp]=await Promise.all(['clients','services','appointments','expenses'].map(c=>api('GET',c)))}
+async function refresh(){await load();render()}
+const crud=(col,id,d)=>id?api('PUT',col+'/'+id,d):api('POST',col,d),del=(col,id)=>api('DELETE',col+'/'+id);
+const cn=id=>(S.clients.find(c=>c.id===id)||{}).name||'—',sn=id=>(S.services.find(s=>s.id===id)||{}).name||'Sem serviço';
+const go=t=>{S.tab=t;scrollTo(0,0);render()};
+function toast(m,e){const t=document.createElement('div');t.className='toast'+(e?' err':'');t.textContent=m;document.body.append(t);setTimeout(()=>t.remove(),2800)}
+
+function modal(title,fields,v,ok,rm,extra='',msg='Excluir este item?'){
+ const o=document.createElement('div');o.className='ov';
+ o.innerHTML=`<form class="md"><div class="row"><h3>${title}</h3><button type="button" class="ic" id="cx">✕</button></div>${fields.map(f=>`<label>${f.l}${f.o?`<select name="${f.k}">${f.o.map(x=>`<option value="${esc(x[0])}">${esc(x[1])}</option>`).join('')}</select>`:f.t==='area'?`<textarea name="${f.k}"></textarea>`:`<input name="${f.k}" type="${f.t||'text'}" ${f.t==='number'?'step="any" min="0"':''} ${f.req?'required':''} ${f.t==='password'?'minlength="6"':''}>`}</label>`).join('')}${extra}<div class="row l"><button>Salvar</button>${rm?'<button type="button" class="d" id="dl">Excluir</button>':''}</div></form>`;
+ document.body.append(o);const f=o.querySelector('form');
+ fields.forEach(x=>f.elements[x.k].value=v[x.k]??'');
+ const kd=e=>{if(e.key==='Escape')close()},close=()=>{o.remove();document.removeEventListener('keydown',kd)};
+ document.addEventListener('keydown',kd);o.onclick=e=>{if(e.target===o)close()};o.querySelector('#cx').onclick=close;
+ f.onsubmit=async e=>{e.preventDefault();if(f.busy)return;f.busy=1;const d={};fields.forEach(x=>d[x.k]=(x.t==='number'||x.n)?+f.elements[x.k].value:f.elements[x.k].value);
+  try{await ok(d);close()}catch(er){if(er.message)toast(er.message,1);f.busy=0}};
+ if(rm)o.querySelector('#dl').onclick=async()=>{if(!confirm(msg))return;try{await rm();close()}catch(er){toast(er.message,1)}};
+ const first=f.querySelector('input,select,textarea');if(first&&!v.id&&matchMedia('(min-width:800px)').matches)first.focus();
+ return f;
+}
+const confD=(d,id)=>d.status!=='cancelado'&&S.appts.some(x=>x.id!==id&&x.date===d.date&&x.status!=='cancelado'&&mi(x.time)<mi(d.time)+ +d.duration&&mi(d.time)<mi(x.time)+ +x.duration);
+function apptForm(id){
+ if(!S.clients.length){toast('Cadastre um cliente primeiro');return go('clientes')}
+ const a=S.appts.find(x=>x.id===id)||{clientId:S.clients[0].id,date:S.tab==='agenda'?S.date:iso(new Date()),time:'09:00',duration:60,price:0,status:'agendado',paid:0,method:''};
+ const f=modal(id?'Editar agendamento':'Novo agendamento',[
+  {k:'clientId',l:'Cliente',o:S.clients.map(c=>[c.id,c.name])},{k:'serviceId',l:'Serviço',o:[['','— nenhum —'],...S.services.map(s=>[s.id,s.name])]},
+  {k:'date',l:'Data',t:'date',req:1},{k:'time',l:'Hora',t:'time',req:1},{k:'duration',l:'Duração (min)',t:'number',req:1},{k:'price',l:'Valor (R$)',t:'number',req:1},
+  {k:'status',l:'Status',o:ST.map(x=>[x,x])},{k:'paid',l:'Pago?',o:[[0,'Não'],[1,'Sim']],n:1},{k:'method',l:'Forma de pagamento',o:PM.map(x=>[x,x||'—'])},{k:'notes',l:'Observações',t:'area'}],a,
+  async d=>{if(confD(d,id)&&!confirm('Já existe outro atendimento nesse horário. Salvar mesmo assim?'))throw new Error('');await crud('appointments',id,d);await refresh();toast('Agendamento salvo')},
+  id&&(async()=>{await del('appointments',id);await refresh();toast('Agendamento excluído')}),'','Excluir este agendamento?');
+ f.elements.serviceId.onchange=()=>{const s=S.services.find(x=>x.id===f.elements.serviceId.value);if(s){f.elements.duration.value=s.duration;f.elements.price.value=s.price}};
+}
+function cliForm(id){const c=S.clients.find(x=>x.id===id)||{},H=id?S.appts.filter(a=>a.clientId===id).sort(byT).reverse().slice(0,5):[];
+ const x=id?`<div class="card" style="box-shadow:none"><b>Histórico recente</b>${H.map(a=>`<div class="row"><span>${br(a.date)} ${a.time} · ${esc(sn(a.serviceId))}</span><span class="chip s${ST.indexOf(a.status)}">${a.status}</span></div>`).join('')||'<p class="m">Sem atendimentos ainda.</p>'}</div>`:'';
+ modal(id?'Editar cliente':'Novo cliente',[{k:'name',l:'Nome',req:1},{k:'phone',l:'Telefone (WhatsApp)',t:'tel'},{k:'notes',l:'Observações',t:'area'}],c,async d=>{await crud('clients',id,d);await refresh();toast('Cliente salvo')},id&&(async()=>{await del('clients',id);await refresh();toast('Cliente excluído')}),x,'Excluir este cliente e todos os atendimentos dele?')}
+function srvForm(id){modal(id?'Editar serviço':'Novo serviço',[{k:'name',l:'Nome',req:1},{k:'duration',l:'Duração (min)',t:'number',req:1},{k:'price',l:'Preço (R$)',t:'number',req:1}],S.services.find(x=>x.id===id)||{duration:60,price:0},async d=>{await crud('services',id,d);await refresh();toast('Serviço salvo')},id&&(async()=>{await del('services',id);await refresh();toast('Serviço excluído')}),'','Excluir este serviço?')}
+function expForm(id){modal(id?'Editar despesa':'Nova despesa',[{k:'description',l:'Descrição',req:1},{k:'amount',l:'Valor (R$)',t:'number',req:1},{k:'date',l:'Data',t:'date',req:1}],S.exp.find(x=>x.id===id)||{date:iso(new Date())},async d=>{await crud('expenses',id,d);await refresh();toast('Despesa salva')},id&&(async()=>{await del('expenses',id);await refresh();toast('Despesa excluída')}),'','Excluir esta despesa?')}
+function receive(id){modal('Receber pagamento',[{k:'method',l:'Forma de pagamento',o:PM.slice(1).map(x=>[x,x])}],{method:'Pix'},async d=>{await crud('appointments',id,{paid:1,method:d.method});await refresh();toast('Pagamento registrado')})}
+function pwForm(){modal('Alterar senha',[{k:'password',l:'Senha atual',t:'password',req:1},{k:'newPassword',l:'Nova senha (mín. 6)',t:'password',req:1}],{},async d=>{await api('PUT','me',d);toast('Senha alterada')})}
+async function act(id,d,msg){try{await crud('appointments',id,d);await refresh();toast(msg)}catch(e){toast(e.message,1)}}
+const mv=n=>{const d=pd(S.date);d.setDate(d.getDate()+n);S.date=iso(d);render()};
+const mvM=n=>{const d=pd(S.mon+'-01');d.setMonth(d.getMonth()+n);S.mon=iso(d).slice(0,7);render()};
+const wa=(w,a)=>'https://wa.me/'+(w.length<=11?'55'+w:w)+'?text='+encodeURIComponent('Olá! Aqui é do '+S.user.business+'. Lembrete do seu horário em '+br(a.date)+' às '+a.time+' ('+sn(a.serviceId)+'). Até lá!');
+
+function apCard(a,sd){const c=S.clients.find(x=>x.id===a.clientId)||{},i=ST.indexOf(a.status),w=(c.phone||'').replace(/\D/g,'');
+ return `<div class="card ap b${i}"><div class="tm">${a.time}${sd?`<br><small class="m">${br(a.date).slice(0,5)}</small>`:''}</div><div class="bd" onclick="apptForm('${a.id}')"><div class="row"><b>${esc(c.name||'—')}</b><span class="chip s${i}">${a.status}${a.paid?' · pago':''}</span></div><span class="m">${esc(sn(a.serviceId))} · ${a.duration} min · ${brl(a.price)}</span>${confD(a,a.id)?'<br><span class="chip s0">⚠ conflito de horário</span>':''}
+ <div class="row l" style="margin-top:8px" onclick="event.stopPropagation()">${a.status==='pendente'?`<button class="x" onclick="act('${a.id}',{status:'agendado'},'Agendamento confirmado')">Confirmar</button>`:''}${a.status==='agendado'?`<button class="x" onclick="act('${a.id}',{status:'concluído'},'Atendimento concluído')">Concluir</button>`:''}${!a.paid&&a.status!=='cancelado'?`<button class="x s" onclick="receive('${a.id}')">Receber</button>`:''}${w?`<a class="chip" style="text-decoration:none" href="${wa(w,a)}" target="_blank" rel="noopener">💬 WhatsApp</a>`:''}</div></div></div>`}
+function goPend(){const p=S.appts.filter(a=>a.status==='pendente').sort(byT)[0];if(p)S.date=p.date;go('agenda')}
+function vHome(){const td=iso(new Date()),h=new Date().getHours(),T=S.appts.filter(a=>a.date===td&&a.status!=='cancelado').sort(byT),M=S.appts.filter(a=>a.date.startsWith(td.slice(0,7))&&a.status!=='cancelado'),pend=S.appts.filter(a=>a.status==='pendente').length,now=td+nowT(),nx=S.appts.filter(a=>['pendente','agendado'].includes(a.status)&&a.date+a.time>=now).sort(byT)[0];
+ return `<h2>${h<12?'Bom dia':h<18?'Boa tarde':'Boa noite'}, ${esc((S.user.name||'').split(' ')[0])}! 👋</h2>
+ ${pend?`<div class="card" onclick="goPend()" style="cursor:pointer;border-color:#f0b400">🔔 <b>${pend}</b> pedido(s) de agendamento online aguardando confirmação →</div>`:''}
+ <div class="grid"><div class="card stat"><span>📅 Hoje</span><b>${T.length} atend.</b></div><div class="card stat"><span>💵 Previsto hoje</span><b>${brl(sum(T,a=>a.price))}</b></div><div class="card stat"><span>✅ Recebido no mês</span><b>${brl(sum(M.filter(a=>a.paid),a=>a.price))}</b></div><div class="card stat"><span>⏳ A receber no mês</span><b>${brl(sum(M.filter(a=>!a.paid),a=>a.price))}</b></div></div>
+ <h3 style="margin-top:18px">Próximo atendimento</h3>${nx?apCard(nx,1):'<div class="empty"><b>😌</b>Nenhum atendimento futuro.</div>'}
+ <div class="row"><h3>Hoje</h3><button class="s x" onclick="go('agenda')">Ver agenda</button></div>${T.map(a=>apCard(a)).join('')||'<p class="m">Nada agendado para hoje.</p>'}<button class="fab" onclick="apptForm()">+</button>`}
+function strip(){const d=pd(S.date),st=new Date(d);st.setDate(d.getDate()-(d.getDay()+6)%7);
+ return `<div class="week">${[...Array(7)].map((_,i)=>{const x=new Date(st);x.setDate(st.getDate()+i);const k=iso(x),n=S.appts.filter(a=>a.date===k&&a.status!=='cancelado').length;
+ return `<button class="day ${k===S.date?'on':''} ${k===iso(new Date())?'today':''}" onclick="S.date='${k}';render()"><small>${x.toLocaleDateString('pt-BR',{weekday:'short'}).replace('.','')}</small><b>${x.getDate()}</b><i>${n?'•'.repeat(Math.min(n,3)):'&nbsp;'}</i></button>`}).join('')}</div>`}
+function vAgenda(){const L=S.appts.filter(a=>a.date===S.date).sort(byT),on=L.filter(a=>a.status!=='cancelado');
+ return `<div class="row"><button class="s x" onclick="mv(-7)">‹ Semana</button><input type="date" value="${S.date}" onchange="if(this.value){S.date=this.value;render()}" style="max-width:160px;margin:0"><button class="s x" onclick="S.date=iso(new Date());render()">Hoje</button><button class="s x" onclick="mv(7)">Semana ›</button></div>${strip()}
+ <div class="row"><h3 style="text-transform:capitalize">${pd(S.date).toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'})}</h3><span class="m">${on.length} atend. · ${brl(sum(on,a=>a.price))}</span></div>
+ ${L.map(a=>apCard(a)).join('')||'<div class="empty"><b>🗓️</b>Dia livre! Toque em + para agendar.</div>'}<button class="fab" onclick="apptForm()">+</button>`}
+const cliList=()=>{const q=S.q.toLowerCase(),L=S.clients.filter(c=>(c.name+' '+(c.phone||'')).toLowerCase().includes(q)).sort((a,b)=>a.name.localeCompare(b.name));
+ return L.map(c=>`<div class="card row" onclick="cliForm('${c.id}')" style="cursor:pointer"><div class="row l" style="flex-wrap:nowrap"><div class="avt">${esc(c.name.charAt(0).toUpperCase())}</div><div><b>${esc(c.name)}</b><br><span class="m">${esc(c.phone||'sem telefone')}</span></div></div><span class="chip">${S.appts.filter(a=>a.clientId===c.id&&a.status!=='cancelado').length} atend.</span></div>`).join('')||`<div class="empty"><b>👥</b>${S.q?'Nenhum resultado.':'Cadastre seu primeiro cliente.'}</div>`};
+const vCli=()=>`<h2>Clientes</h2><input placeholder="🔍 Buscar por nome ou telefone" value="${esc(S.q)}" oninput="S.q=this.value;$('#cl').innerHTML=cliList()"><div id="cl">${cliList()}</div><button class="fab" onclick="cliForm()">+</button>`;
+const vSrv=()=>`<h2>Serviços</h2>${S.services.map(s=>`<div class="card row" onclick="srvForm('${s.id}')" style="cursor:pointer"><b>${esc(s.name)}</b><span class="m">${s.duration} min · <b style="color:var(--p)">${brl(s.price)}</b></span></div>`).join('')||'<div class="empty"><b>🛠️</b>Cadastre seus serviços para usar o agendamento online.</div>'}<button class="fab" onclick="srvForm()">+</button>`;
+function csv(){const m=S.mon,R=[['Data','Hora','Cliente','Serviço','Valor','Status','Pago','Forma']];
+ S.appts.filter(a=>a.date.startsWith(m)).sort(byT).forEach(a=>R.push([br(a.date),a.time,cn(a.clientId),sn(a.serviceId),a.price,a.status,a.paid?'Sim':'Não',a.method]));
+ R.push([],['Despesas']);S.exp.filter(e=>e.date.startsWith(m)).forEach(e=>R.push([br(e.date),'',e.description,'',e.amount]));
+ const t='\ufeff'+R.map(r=>r.map(c=>'"'+String(c??'').replace(/"/g,'""')+'"').join(';')).join('\n'),a=document.createElement('a');
+ a.href=URL.createObjectURL(new Blob([t],{type:'text/csv'}));a.download='financeiro-'+m+'.csv';a.click();toast('Planilha exportada')}
+function vFin(){const m=S.mon,A=S.appts.filter(a=>a.date.startsWith(m)&&a.status!=='cancelado'),rec=sum(A.filter(a=>a.paid),a=>a.price),pen=sum(A.filter(a=>!a.paid),a=>a.price),E=S.exp.filter(e=>e.date.startsWith(m)).sort((a,b)=>b.date.localeCompare(a.date)),des=sum(E,e=>e.amount);
+ const ms=[...Array(6)].map((_,i)=>{const d=pd(m+'-01');d.setMonth(d.getMonth()-5+i);return iso(d).slice(0,7)}),vals=ms.map(k=>sum(S.appts.filter(a=>a.date.startsWith(k)&&a.paid&&a.status!=='cancelado'),a=>a.price)),mx=Math.max(...vals,1),by={};
+ A.filter(a=>a.paid).forEach(a=>{const k=a.method||'Não informado';by[k]=(by[k]||0)+a.price});
+ return `<div class="row"><button class="s x" onclick="mvM(-1)">‹</button><h3 style="text-transform:capitalize;margin:0">${pd(m+'-01').toLocaleDateString('pt-BR',{month:'long',year:'numeric'})}</h3><button class="s x" onclick="mvM(1)">›</button></div>
+ <div class="grid" style="margin-top:10px"><div class="card stat"><span>✅ Recebido</span><b>${brl(rec)}</b></div><div class="card stat"><span>⏳ A receber</span><b>${brl(pen)}</b></div><div class="card stat"><span>📤 Despesas</span><b>${brl(des)}</b></div><div class="card stat"><span>📈 Lucro</span><b style="color:${rec-des<0?'var(--r)':'var(--p)'}">${brl(rec-des)}</b></div></div>
+ <div class="card"><b>Recebido nos últimos 6 meses</b><div class="bars" style="margin-top:12px">${vals.map((v,i)=>`<div><i style="height:${Math.round(v/mx*90)+3}px"></i>${pd(ms[i]+'-01').toLocaleDateString('pt-BR',{month:'short'}).replace('.','')}</div>`).join('')}</div></div>
+ ${Object.keys(by).length?`<div class="card"><b>Por forma de pagamento</b><div class="row l" style="margin-top:8px">${Object.entries(by).map(([k,v])=>`<span class="chip">${esc(k)}: ${brl(v)}</span>`).join('')}</div></div>`:''}
+ <div class="row"><h3>Despesas</h3><span><button class="x s" onclick="csv()">⬇ Exportar CSV</button> <button class="x" onclick="expForm()">+ Despesa</button></span></div>
+ ${E.map(e=>`<div class="card row" onclick="expForm('${e.id}')" style="cursor:pointer"><span>${esc(e.description)}<br><small class="m">${br(e.date)}</small></span><b>${brl(e.amount)}</b></div>`).join('')||'<p class="m">Sem despesas neste mês.</p>'}`}
+function copyLink(){const l=location.origin+'/b/'+S.user.slug;(navigator.clipboard?navigator.clipboard.writeText(l):Promise.reject()).then(()=>toast('Link copiado!'),()=>prompt('Copie o link:',l))}
+async function saveCfg(){try{await api('PUT','me',{business:$('#biz').value,online:$('#onl').value==='1',start:$('#hs').value,end:$('#he').value,step:+$('#hp').value});await refresh();toast('Alterações salvas')}catch(e){toast(e.message,1)}}
+function vCfg(){const u=S.user,link=location.origin+'/b/'+u.slug;
+ return `<h2>Conta</h2><div class="card"><label>Nome do negócio<input id="biz" value="${esc(u.business)}"></label><label>Agendamento online<select id="onl"><option value="1" ${u.online?'selected':''}>Ativado</option><option value="0" ${u.online?'':'selected'}>Desativado</option></select></label>
+ <div class="grid"><label>Início<input id="hs" type="time" value="${u.start}"></label><label>Fim<input id="he" type="time" value="${u.end}"></label><label>Intervalo<select id="hp">${[15,20,30,45,60].map(x=>`<option value="${x}" ${x==u.step?'selected':''}>${x} min</option>`).join('')}</select></label></div><button style="margin-top:12px" onclick="saveCfg()">Salvar alterações</button></div>
+ <div class="card"><b>🔗 Link de agendamento online</b><p style="word-break:break-all"><a href="${link}" target="_blank" rel="noopener" style="color:var(--p)">${esc(link)}</a></p><button class="s" onclick="copyLink()">Copiar link</button></div>
+ <div class="card row"><button class="s" onclick="pwForm()">Alterar senha</button><button class="d" onclick="logout()">Sair</button></div><p class="m" style="text-align:center">${esc(u.email)}</p>`}
+const VIEW={home:vHome,agenda:vAgenda,clientes:vCli,servicos:vSrv,fin:vFin,cfg:vCfg};
+
+function authView(){$('#app').innerHTML=`<div class="pub"><div class="hero"><h1 style="margin:0">📅 MinhaAgenda</h1><p style="margin:6px 0 0;opacity:.9">Agenda e gestão para autônomos e pequenos negócios.</p></div><form class="card" id="af"><h3>${S.reg?'Criar conta grátis':'Entrar'}</h3>${S.reg?'<label>Seu nome<input name="name" required></label><label>Nome do negócio<input name="business"></label>':''}<label>E-mail<input name="email" type="email" required></label><label>Senha<input name="password" type="password" minlength="6" required></label><button style="width:100%">${S.reg?'Criar conta':'Entrar'}</button><p class="m" style="text-align:center;cursor:pointer" onclick="S.reg=!S.reg;render()">${S.reg?'Já tenho conta — entrar':'Não tenho conta — criar grátis'}</p></form></div>`;
+ $('#af').onsubmit=async e=>{e.preventDefault();const bt=e.target.querySelector('button');bt.disabled=true;try{const j=await api('POST',S.reg?'register':'login',Object.fromEntries(new FormData(e.target)));S.tok=j.token;localStorage.tok=j.token;S.tab='home';await load();render()}catch(er){toast(er.message,1);bt.disabled=false}}}
+
+let P={};
+async function pubInit(){try{const r=await fetch('/api/public/'+PUBSLUG);if(!r.ok)throw 0;P={...await r.json(),date:iso(new Date()),sid:'',time:'',n:'',p:''};if(P.services.length)P.sid=P.services[0].id;pubView()}catch{$('#app').innerHTML='<div class="pub"><div class="empty"><b>😕</b>Página de agendamento não encontrada ou desativada.</div></div>'}}
+function slots(){const s=P.services.find(x=>x.id===P.sid);if(!s)return[];const out=[],td=P.date===iso(new Date()),n=nowT();
+ for(let t=mi(P.start);t+ +s.duration<=mi(P.end);t+=P.step){const h=hm(t);if(td&&h<=n)continue;if(P.busy.some(b=>b.date===P.date&&mi(b.time)<t+ +s.duration&&t<mi(b.time)+(+b.duration||30)))continue;out.push(h)}return out}
+function pubView(){const sl=slots();$('#app').innerHTML=`<div class="pub"><div class="hero"><h2 style="margin:0">${esc(P.business)}</h2><p style="margin:4px 0 0;opacity:.9">Agende seu horário online</p></div>${P.services.length?`<form class="card" id="pf"><label>Serviço<select id="ps">${P.services.map(s=>`<option value="${s.id}" ${P.sid===s.id?'selected':''}>${esc(s.name)} — ${brl(s.price)} (${s.duration} min)</option>`).join('')}</select></label>
+ <label>Data<input type="date" id="pd" value="${P.date}" min="${iso(new Date())}" required></label><label>Horários disponíveis</label><div class="slots">${sl.map(h=>`<button type="button" class="${P.time===h?'':'s'}" onclick="P.time='${h}';pubView()">${h}</button>`).join('')||'<span class="m">Sem horários livres nesta data.</span>'}</div>
+ <label>Seu nome<input id="pn" value="${esc(P.n)}" oninput="P.n=this.value" required></label><label>WhatsApp (com DDD)<input id="pp" type="tel" value="${esc(P.p)}" oninput="P.p=this.value" required></label><button style="width:100%">Solicitar agendamento</button></form>`:'<div class="empty"><b>🛠️</b>Nenhum serviço disponível no momento.</div>'}</div>`;
+ if(!P.services.length)return;$('#ps').onchange=e=>{P.sid=e.target.value;P.time='';pubView()};$('#pd').onchange=e=>{if(e.target.value){P.date=e.target.value;P.time='';pubView()}};
+ $('#pf').onsubmit=async e=>{e.preventDefault();if(!P.time)return toast('Escolha um horário',1);const bt=e.target.querySelector('button[style]');bt.disabled=true;
+  try{const r=await fetch('/api/public/'+PUBSLUG,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:P.n,phone:P.p,serviceId:P.sid,date:P.date,time:P.time})}),j=await r.json().catch(()=>({}));
+   if(!r.ok){toast(j.error||'Erro ao agendar',1);await pubInit();return}
+   $('#app').innerHTML=`<div class="pub"><div class="hero"><h2 style="margin:0">${esc(P.business)}</h2></div><div class="empty"><b>✅</b><h3>Solicitação enviada!</h3><p>${esc(P.services.find(s=>s.id===P.sid).name)} em ${br(P.date)} às ${P.time}.<br>O profissional vai confirmar seu horário em breve.</p></div></div>`}
+  catch{toast('Sem conexão',1);bt.disabled=false}}}
+
+function render(){if(PUBSLUG)return;if(!S.tok)return authView();
+ const ini=(S.user.business||'?').trim().charAt(0).toUpperCase();
+ $('#app').innerHTML=`<header class="top"><span>📅 ${esc(S.user.business||'MinhaAgenda')}</span><button class="av" onclick="go('cfg')" aria-label="Conta">${esc(ini)}</button></header><nav>${NAV.map(([k,i,l])=>`<a class="${S.tab===k?'on':''}" onclick="go('${k}')"><b>${i}</b>${l}</a>`).join('')}</nav><main>${(VIEW[S.tab]||vHome)()}</main>`}
+if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
+if(PUBSLUG)pubInit();else if(S.tok)load().then(render).catch(e=>{toast(e.message,1);render()});else render();
+</script></body></html>
